@@ -26,6 +26,16 @@ class MyViewModel : ViewModel() {
     var coordinates: LatLng by mutableStateOf(LatLng(0.0, 0.0))
         private set
     private val _markerList = MutableStateFlow<List<Marker>>(emptyList())
+
+    init {
+        loadMarkers()
+    }
+
+    private fun loadMarkers() {
+        viewModelScope.launch {
+            _markerList.value = repository.getMarkers()
+        }
+    }
     var markerList: StateFlow<List<Marker>> = _markerList
 
     fun SetCoordinates(value: LatLng) {

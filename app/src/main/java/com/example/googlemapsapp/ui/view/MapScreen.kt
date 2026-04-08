@@ -10,6 +10,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -34,14 +35,15 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberUpdatedMarkerState
+import kotlin.math.log
 import kotlin.toString
 
 @SuppressLint("UnrememberedMutableState", "ViewModelConstructorInComposable")
 @Composable
 fun MapsScreen(modifier: Modifier = Modifier, navController: NavController) {
-    val newMarkerList by MyViewModel().markerList.collectAsStateWithLifecycle(emptyList<Marker>())
     val viewModel = MyViewModel()
-    val itb = LatLng(41.4534225, 2.1837151)
+    val newMarkerList by viewModel.markerList.collectAsStateWithLifecycle(emptyList<Marker>())
+    var itb = LatLng(41.4534225, 2.1837151)
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(itb, 17f)
     }
@@ -49,14 +51,24 @@ fun MapsScreen(modifier: Modifier = Modifier, navController: NavController) {
         GoogleMap(modifier.fillMaxSize(), cameraPositionState = cameraPositionState, onMapClick = {
             Log.d("MAP CLICKED", it.toString())
         }, onMapLongClick = { LatLng ->
+            itb = LatLng
             Log.d("MAP CLICKED LONG", LatLng.toString())
             viewModel.SetCoordinates(LatLng)
             Log.d("COORDINATES SET", viewModel.coordinates.toString())
-            navController.navigate(Destination.Marker(LatLng.latitude.toString(), LatLng.longitude.toString()))
+            navController.navigate(
+                Destination.Marker(
+                    LatLng.latitude.toString(), LatLng.longitude.toString()
+                )
+            )
         }) {
-            newMarkerList.forEach{position ->
+            Log.d("MARKERS RETRIEVED", "${newMarkerList.count()} markers")
+            newMarkerList.forEach { position ->
                 Marker(
-                    state = rememberUpdatedMarkerState(LatLng(position.latitude, position.longitude)),
+                    state = rememberUpdatedMarkerState(
+                        LatLng(
+                            position.latitude, position.longitude
+                        )
+                    ),
                     title = "New Marker",
                     snippet = "${position.latitude.toFloat()}, ${position.longitude.toFloat()}"
                 )
