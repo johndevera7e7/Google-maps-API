@@ -2,13 +2,17 @@ package com.example.googlemapsapp.navigation
 
 import kotlinx.serialization.Serializable
 
-class Destination {
-    sealed class Destination() {
-        @Serializable
-        object Home : Destination()
-        @Serializable
-        object Settings : Destination()
-        @Serializable
-        object About : Destination()
-    }
+
+sealed class Destination() {
+    @Serializable
+    object Map : Destination()
+
+    @Serializable
+    object List : Destination()
+
+    @Serializable
+    data class Marker(
+        val lat: String,
+        val lng: String
+    ) : Destination()
 }

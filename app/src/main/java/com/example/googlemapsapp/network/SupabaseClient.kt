@@ -1,4 +1,4 @@
-package com.example.googlemapsapp.ui.network
+package com.example.googlemapsapp.network
 
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest

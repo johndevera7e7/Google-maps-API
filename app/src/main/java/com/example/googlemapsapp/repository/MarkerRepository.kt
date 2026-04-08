@@ -1,11 +1,9 @@
-package com.example.googlemapsapp.ui.repository
+package com.example.googlemapsapp.repository
 
-import com.example.googlemapsapp.ui.model.Marker
-import com.example.googlemapsapp.ui.network.SupabaseClient
-import com.google.maps.android.compose.internal.LocalGoogleMapsInitializer
+import com.example.googlemapsapp.model.Marker
+import com.example.googlemapsapp.network.SupabaseClient
 
 import io.github.jan.supabase.postgrest.postgrest
-import kotlin.math.log
 
 
 class MarkerRepository {

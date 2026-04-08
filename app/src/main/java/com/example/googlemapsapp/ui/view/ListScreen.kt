@@ -21,8 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.googlemapsapp.ui.model.Marker
-import com.example.googlemapsapp.ui.viewmodel.MyViewModel
+import com.example.googlemapsapp.model.Marker
+import com.example.googlemapsapp.viewmodel.MyViewModel
 
 @Composable
 fun ListScreen(viewModel: MyViewModel, onMarkerClick:(Marker) -> Unit) {
@@ -35,7 +35,7 @@ fun ListScreen(viewModel: MyViewModel, onMarkerClick:(Marker) -> Unit) {
             ) {
                 Card(
                     Modifier.fillMaxSize()
-                        .clickable{},
+                        .clickable{onMarkerClick},
                     border = BorderStroke(2.dp, Color.LightGray),
                 ) {
                     Row(

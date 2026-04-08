@@ -1,21 +1,15 @@
 package com.example.googlemapsapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.example.googlemapsapp.navigation.AppNavHost
 import com.example.googlemapsapp.ui.theme.GoogleMapsAppTheme
-import com.example.googlemapsapp.view.MapsScreen
 import com.example.googlemapsapp.viewmodel.MyViewModel
-import kotlin.getValue
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +18,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             GoogleMapsAppTheme {
-                MapsScreen()
+                val navController = rememberNavController()
+                myViewModel.updateMarkerList()
+                Log.d(
+                    "MAIN ACTIVITY",
+                    "Marker list updated: ${myViewModel.markerList.value.count()} markers"
+                )
+                AppNavHost(navController = navController)
             }
         }
     }

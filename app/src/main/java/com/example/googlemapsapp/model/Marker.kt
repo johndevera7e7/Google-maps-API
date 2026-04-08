@@ -1,4 +1,4 @@
-package com.example.googlemapsapp.ui.model
+package com.example.googlemapsapp.model
 
 import kotlinx.serialization.Serializable
 
