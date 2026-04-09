@@ -1,5 +1,6 @@
 package com.example.googlemapsapp.navigation
 
+import com.example.googlemapsapp.model.Marker
 import kotlinx.serialization.Serializable
 
 
@@ -11,8 +12,11 @@ sealed class Destination() {
     object List : Destination()
 
     @Serializable
-    data class Marker(
+    data class marker(
         val lat: String,
         val lng: String
     ) : Destination()
+
+    @Serializable
+    data class Detail(val Marker: Marker) : Destination()
 }

@@ -16,6 +16,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,36 +24,42 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.googlemapsapp.model.Marker
 import com.example.googlemapsapp.viewmodel.MyViewModel
+import com.google.maps.android.compose.internal.LocalGoogleMapsInitializer
 
 @Composable
-fun ListScreen(viewModel: MyViewModel, onMarkerClick:(Marker) -> Unit) {
+fun ListScreen(viewModel: MyViewModel, onMarkerClick: (Marker) -> Unit) {
     val markerList by viewModel.markerList.collectAsStateWithLifecycle(emptyList<Marker>())
-    Log.d("MARKER LIST", "${markerList.count()}")
+    Log.d("MARKER LIST BROSKI", "${markerList.count()}")
     LazyColumn(Modifier.fillMaxSize()) {
-        items(markerList, key = { currentMarker -> currentMarker.id!! }) {
-            Row(
-                Modifier.fillMaxWidth()
-            ) {
-                Card(
-                    Modifier.fillMaxSize()
-                        .clickable{onMarkerClick},
-                    border = BorderStroke(2.dp, Color.LightGray),
-                ) {
-                    Row(
-                        Modifier
-                            .fillMaxSize()
-                            .padding(10.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Column(Modifier.fillMaxSize()) {
-                            Text(text = "Marker: ${it.title}")
-                            Text(text = "Latitude: ${it.latitude}")
-                            Text(text = "Longitude: ${it.longitude}")
-                        }
-                    }
-                }
-            }
-            Spacer(Modifier.height(15.dp))
+        items(markerList, key = { currentMarker -> currentMarker }) {
+            MarkerItem(marker = it, onItemClick = onMarkerClick)
         }
     }
+}
+
+@Composable
+fun MarkerItem(onItemClick:(Marker) -> Unit, marker: Marker){
+    Row(
+        Modifier.fillMaxWidth()
+    ) {
+        Card(
+            Modifier.fillMaxSize()
+                .clickable{onItemClick(marker)},
+            border = BorderStroke(2.dp, Color.LightGray),
+        ) {
+            Row(
+                Modifier
+                    .fillMaxSize()
+                    .padding(10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(Modifier.fillMaxSize()) {
+                    Text(text = "Marker: ${marker.title}")
+                    Text(text = "Latitude: ${marker.latitude}")
+                    Text(text = "Longitude: ${marker.longitude}")
+                }
+            }
+        }
+    }
+    Spacer(Modifier.height(15.dp))
 }

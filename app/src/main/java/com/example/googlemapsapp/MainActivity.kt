@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.googlemapsapp.navigation.AppNavHost
 import com.example.googlemapsapp.ui.theme.GoogleMapsAppTheme
 import com.example.googlemapsapp.viewmodel.MyViewModel
+import androidx.compose.runtime.collectAsState
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +23,7 @@ class MainActivity : ComponentActivity() {
                 myViewModel.updateMarkerList()
                 Log.d(
                     "MAIN ACTIVITY",
-                    "Marker list updated: ${myViewModel.markerList.value.count()} markers"
+                    "Marker list updated: ${myViewModel.markerList.collectAsState().value.count()} markers"
                 )
                 AppNavHost(navController = navController)
             }

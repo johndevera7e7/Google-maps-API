@@ -38,7 +38,7 @@ fun MapsScreen(modifier: Modifier = Modifier, navController: NavController) {
             viewModel.SetCoordinates(LatLng)
             Log.d("COORDINATES SET", viewModel.coordinates.toString())
             navController.navigate(
-                Destination.Marker(
+                Destination.marker(
                     LatLng.latitude.toString(), LatLng.longitude.toString()
                 )
             )
