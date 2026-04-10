@@ -14,6 +14,14 @@ class MarkerRepository {
         taula.insert(newMarker)
     }
 
+    suspend fun editMarker(id: Int, title: String, description: String, latitude: Double, longitude: Double) {
+        val updatedMarker = Marker(id = id, title = title, latitude = latitude, longitude = longitude, description = description)
+        taula.update(updatedMarker) {
+            filter {
+                eq("id", id)
+            }
+        }
+    }
     suspend fun getMarkers(): List<Marker> {
         return taula.select().decodeList<Marker>()
     }

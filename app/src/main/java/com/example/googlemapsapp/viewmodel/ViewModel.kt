@@ -47,6 +47,18 @@ class MyViewModel : ViewModel() {
         }
     }
 
+    fun EditMarker(id: Int, title: String, description: String, latitude: Double, longitude: Double) {
+        viewModelScope.launch {
+            MarkerRepository().editMarker(
+                id = id,
+                title = title,
+                description = description,
+                latitude = latitude,
+                longitude = longitude
+            )
+        }
+    }
+
     fun updateMarkerList(){
         viewModelScope.launch() {
             markerList = MutableStateFlow(repository.getMarkers())
@@ -61,4 +73,5 @@ class MyViewModel : ViewModel() {
             updateMarkerList()
         }
     }
+
 }

@@ -27,24 +27,24 @@ import com.example.googlemapsapp.viewmodel.MyViewModel
 import com.google.maps.android.compose.internal.LocalGoogleMapsInitializer
 
 @Composable
-fun ListScreen(viewModel: MyViewModel, onMarkerClick: (Marker) -> Unit) {
+fun ListScreen(viewModel: MyViewModel, onMarkerClick: (Int) -> Unit) {
     val markerList by viewModel.markerList.collectAsStateWithLifecycle(emptyList<Marker>())
     Log.d("MARKER LIST BROSKI", "${markerList.count()}")
     LazyColumn(Modifier.fillMaxSize()) {
-        items(markerList, key = { currentMarker -> currentMarker }) {
+        items(markerList) {
             MarkerItem(marker = it, onItemClick = onMarkerClick)
         }
     }
 }
 
 @Composable
-fun MarkerItem(onItemClick:(Marker) -> Unit, marker: Marker){
+fun MarkerItem(onItemClick:(Int) -> Unit, marker: Marker){
     Row(
         Modifier.fillMaxWidth()
     ) {
         Card(
             Modifier.fillMaxSize()
-                .clickable{onItemClick(marker)},
+                .clickable{onItemClick(marker.id?: 0)},
             border = BorderStroke(2.dp, Color.LightGray),
         ) {
             Row(
