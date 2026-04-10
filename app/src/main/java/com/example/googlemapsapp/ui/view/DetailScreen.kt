@@ -20,8 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.googlemapsapp.model.Marker
 import com.example.googlemapsapp.navigation.Destination
 import com.example.googlemapsapp.viewmodel.MyViewModel
 
@@ -33,7 +31,7 @@ fun DetailScreen(
 ) {
     val markerList by viewModel.markerList.collectAsStateWithLifecycle()
     var noMarkerName by remember { mutableStateOf(false) }
-    var current_marker = markerList.find { it.id == marker.Marker_id }
+    val current_marker = markerList.find { it.id == marker.Marker_id }
     var newName: String by remember { mutableStateOf(current_marker?.title ?: "") }
     var newDesc: String by remember { mutableStateOf(current_marker?.description ?: "") }
 
@@ -73,14 +71,25 @@ fun DetailScreen(
                         id = current_marker?.id ?: 0,
                         title = newName,
                         description = newDesc,
-                        latitude = current_marker?.latitude?: 0.0,
-                        longitude = current_marker?.longitude?: 0.0
+                        latitude = current_marker?.latitude ?: 0.0,
+                        longitude = current_marker?.longitude ?: 0.0
                     )
                     viewModel.updateMarkerList()
                 }
             }
         ) {
             Text("Save Marker")
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        Button(
+            modifier = Modifier
+                .width(200.dp),
+            onClick = {
+                viewModel.deleteMarker(current_marker?.id ?: 0)
+                viewModel.updateMarkerList()
+            }
+        ) {
+            Text("Delete Marker")
         }
         Spacer(modifier = Modifier.height(8.dp))
         Button(

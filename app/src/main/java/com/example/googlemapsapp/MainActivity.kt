@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
                     "MAIN ACTIVITY",
                     "Marker list updated: ${myViewModel.markerList.collectAsState().value.count()} markers"
                 )
-                AppNavHost(navController = navController)
+                AppNavHost(navController = navController, viewModel = myViewModel)
             }
         }
     }

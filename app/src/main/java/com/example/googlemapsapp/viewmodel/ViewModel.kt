@@ -1,6 +1,5 @@
 package com.example.googlemapsapp.viewmodel
 
-import android.R
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -30,6 +29,7 @@ class MyViewModel : ViewModel() {
             _markerList.value = repository.getMarkers()
         }
     }
+
     var markerList: StateFlow<List<Marker>> = _markerList
 
     fun SetCoordinates(value: LatLng) {
@@ -47,7 +47,13 @@ class MyViewModel : ViewModel() {
         }
     }
 
-    fun EditMarker(id: Int, title: String, description: String, latitude: Double, longitude: Double) {
+    fun EditMarker(
+        id: Int,
+        title: String,
+        description: String,
+        latitude: Double,
+        longitude: Double
+    ) {
         viewModelScope.launch {
             MarkerRepository().editMarker(
                 id = id,
@@ -59,19 +65,17 @@ class MyViewModel : ViewModel() {
         }
     }
 
-    fun updateMarkerList(){
+    fun updateMarkerList() {
         viewModelScope.launch() {
             markerList = MutableStateFlow(repository.getMarkers())
         }
     }
 
-    fun deleteMarker(title: R.string) {
+    fun deleteMarker(id: Int) {
         viewModelScope.launch {
-            repository.getId(title = title.toString())?.let { id ->
-                repository.deleteMarker(id)
-            }
-            updateMarkerList()
+            repository.deleteMarker(id)
         }
+        updateMarkerList()
     }
-
 }
+
